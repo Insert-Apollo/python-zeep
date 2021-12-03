@@ -93,7 +93,7 @@ class Signature(MemorySignature):
         signature_method=None,
         digest_method=None,
         verify_reply_signature=True,
-        response_cert_data=None,
+        response_certfile=None,
     ):
         super().__init__(
             _read_file(key_file),
