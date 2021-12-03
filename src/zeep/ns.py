@@ -21,4 +21,6 @@ WSU = (
     "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"
 )
 
+P1_KONTEKST_WYWOLANIA = "http://csioz.gov.pl/p1/kontekst/mt/v20170510"
+
 NAMESPACE_TO_PREFIX = {XSD: "xsd"}

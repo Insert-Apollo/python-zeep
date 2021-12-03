@@ -14,6 +14,7 @@ from lxml.etree import QName
 from zeep import ns
 from zeep.exceptions import SignatureVerificationFailed
 from zeep.utils import detect_soap_env
+from zeep.wsdl.utils import get_or_create_header
 from zeep.wsse.utils import ensure_id, get_security_header
 
 try:
@@ -92,7 +93,7 @@ class Signature(MemorySignature):
         signature_method=None,
         digest_method=None,
         verify_reply_signature=True,
-        response_certfile=None,
+        response_cert_data=None,
     ):
         super().__init__(
             _read_file(key_file),
@@ -256,6 +257,12 @@ def _signature_prepare(envelope, key, signature_method, digest_method):
     timestamp = security.find(QName(ns.WSU, "Timestamp"))
     if timestamp != None:
         _sign_node(ctx, signature, timestamp, digest_method)
+
+    header = get_or_create_header(envelope)
+    kontekst_wywolania = header.find(QName(ns.P1_KONTEKST_WYWOLANIA, 'kontekstWywolania'))
+    if kontekst_wywolania != None:
+        _sign_node(ctx, signature, kontekst_wywolania)
+
     ctx.sign(signature)
 
     # Place the X509 data inside a WSSE SecurityTokenReference within
