@@ -93,7 +93,12 @@ class AnySimpleType(AnyType):
         if value is Nil:
             node.set(xsi_ns("nil"), "true")
             return
-        node.text = self.xmlvalue(value)
+
+        if value and value.startswith("<![CDATA[") and value.endswith("]]>"):
+            value = value.removeprefix("<![CDATA[").removesuffix("]]>")
+            node.text = etree.CDATA(value)
+        else:
+            node.text = value
 
     def signature(self, schema=None, standalone=True):
         return self.get_prefixed_name(schema)
