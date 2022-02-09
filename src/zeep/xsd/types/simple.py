@@ -94,7 +94,7 @@ class AnySimpleType(AnyType):
             node.set(xsi_ns("nil"), "true")
             return
 
-        if value and value is str and value.startswith("<![CDATA[") and value.endswith("]]>"):
+        if value and isinstance(value, str) and value.startswith("<![CDATA[") and value.endswith("]]>"):
             value = value.removeprefix("<![CDATA[").removesuffix("]]>")
             node.text = etree.CDATA(value)
         else:
