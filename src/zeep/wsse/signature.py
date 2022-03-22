@@ -270,7 +270,11 @@ def _signature_prepare(envelope, key, signature_method, digest_method):
         _sign_node(ctx, signature, timestamp, digest_method)
 
     header = get_or_create_header(envelope)
-    kontekst_wywolania = header.find(QName(ns.P1_KONTEKST_WYWOLANIA, 'kontekstWywolania'))
+    kontekst_wywolania = header.find(QName(ns.P1_KONTEKST_WYWOLANIA_RECEPTA, 'kontekstWywolania'))
+    if kontekst_wywolania != None:
+        _sign_node(ctx, signature, kontekst_wywolania)
+
+    kontekst_wywolania = header.find(QName(ns.P1_KONTEKST_WYWOLANIA_SKIEROWANIE, 'kontekstWywolania'))
     if kontekst_wywolania != None:
         _sign_node(ctx, signature, kontekst_wywolania)
 
